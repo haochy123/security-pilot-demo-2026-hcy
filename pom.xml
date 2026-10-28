@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.demo</groupId>
+    <artifactId>ticket-demo</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <!-- ============================================================
+         虚拟试点项目「内部工单系统」依赖清单
+         ⚠️ 以下依赖版本为【故意埋入的已知漏洞版本】，供 Trivy 演示依赖CVE扫描
+         ⚠️ 请勿在任何真实项目中使用这些版本
+         ============================================================ -->
+    <dependencies>
+        <!-- 埋点：fastjson 1.2.24 反序列化漏洞（CVE-2017-18349 等多个CVE） -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.24</version>
+        </dependency>
+
+        <!-- 埋点：log4j-core 2.14.1 Log4Shell（CVE-2021-44228，P0级） -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.14.1</version>
+        </dependency>
+
+        <!-- 埋点：jackson-databind 2.9.0 多个反序列化CVE -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+
+        <!-- 埋点：commons-collections 3.2.1 反序列化漏洞（CVE-2015-7501） -->
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.16</version>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,66 @@
+rules:
+  - id: mybatis-sql-injection
+    languages: [generic]
+    message: "MyBatis使用 ${} 直接拼接SQL，存在SQL注入风险，应改为 #{} 预编译参数"
+    severity: ERROR
+    patterns:
+      - pattern-regex: '\$\{[^}]+\}'
+    paths:
+      include: ["*.xml"]
+
+  - id: hardcoded-password
+    languages: [java]
+    message: "检测到硬编码密码，应移到环境变量或密钥管理服务"
+    severity: ERROR
+    pattern-either:
+      - pattern: 'String $PWD = "...";'
+    metavariable-regex:
+      metavariable: $PWD
+      regex: '(?i).*(password|passwd|pwd).*'
+
+  - id: hardcoded-cloud-access-key
+    languages: [java]
+    message: "检测到硬编码云平台AccessKey（AKID开头），属于P0级密钥泄露"
+    severity: ERROR
+    pattern-regex: 'AKID[A-Za-z0-9]{16,32}'
+
+  - id: insecure-random-for-token
+    languages: [java]
+    message: "安全敏感场景使用java.util.Random（可预测），应使用SecureRandom"
+    severity: WARNING
+    patterns:
+      - pattern: 'new Random()'
+      - pattern-inside: |
+          $RET $METHOD(...) {
+            ...
+            $T $R = new Random();
+            ...
+            $R.next...(...);
+            ...
+          }
+    metavariable-regex:
+      metavariable: $METHOD
+      regex: '(?i).*(token|session|secret|nonce|captcha).*'
+
+  - id: sensitive-data-in-log
+    languages: [java]
+    message: "疑似在日志中打印手机号等个人信息，应脱敏后再输出"
+    severity: WARNING
+    pattern-either:
+      - pattern: 'System.out.println(... + $PHONE + ...);'
+      - pattern: '$LOG.info(... + $PHONE + ...);'
+      - pattern: '$LOG.debug(... + $PHONE + ...);'
+    metavariable-regex:
+      metavariable: $PHONE
+      regex: '(?i).*(phone|mobile|idcard|id_card).*'
+
+  - id: password-string-equality
+    languages: [java]
+    message: "使用==比较字符串（密码场景），应使用常量时间比较 MessageDigest.isEqual 防时序攻击"
+    severity: WARNING
+    pattern-either:
+      - pattern: '$INPUT == $STORED'
+      - pattern: '$INPUT.equals($STORED)'
+    metavariable-regex:
+      metavariable: $STORED
+      regex: '(?i).*(password|passwd|secret|token).*'

@@ -1,0 +1,67 @@
+[
+  {
+    "RuleID": "company-cloud-access-key",
+    "Description": "公司云平台AccessKey泄露",
+    "File": "src/main/java/com/demo/service/TicketService.java",
+    "StartLine": 15,
+    "EndLine": 15,
+    "Match": "AKIDtGk9F7qZx2LmNoPqRsTuVwXyZ123456",
+    "Secret": "AKIDtGk9F7qZx2LmNoPqRsTuVwXyZ123456",
+    "Commit": "a1b2c3d4e5f6789012345678abcdef0123456789",
+    "Author": "dev1",
+    "Message": "feat: 工单附件上传",
+    "Severity": "CRITICAL"
+  },
+  {
+    "RuleID": "internal-api-secret",
+    "Description": "内网API密钥泄露",
+    "File": "src/main/java/com/demo/service/TicketService.java",
+    "StartLine": 21,
+    "EndLine": 21,
+    "Match": "internal-secret-9f8e7d6c5b4a3f2e1d",
+    "Secret": "internal-secret-9f8e7d6c5b4a3f2e1d",
+    "Commit": "a1b2c3d4e5f6789012345678abcdef0123456789",
+    "Author": "dev1",
+    "Message": "feat: 工单附件上传",
+    "Severity": "CRITICAL"
+  },
+  {
+    "RuleID": "company-cloud-access-key",
+    "Description": "公司云平台AccessKey泄露（Git历史提交）",
+    "File": "src/main/resources/secret.properties",
+    "StartLine": 1,
+    "EndLine": 1,
+    "Match": "AKIDhIsToRyLeAkEdKeY987654321",
+    "Secret": "AKIDhIsToRyLeAkEdKeY987654321",
+    "Commit": "f0e1d2c3b4a5968778695a4b3c2d1e0f98765432",
+    "Author": "dev1",
+    "Message": "temp: add cloud config",
+    "Severity": "CRITICAL"
+  },
+  {
+    "RuleID": "payment-merchant-key",
+    "Description": "第三方支付商户密钥泄露",
+    "File": "src/main/resources/application.properties",
+    "StartLine": 9,
+    "EndLine": 9,
+    "Match": "mk_live_5k8d2j9f4h7g3a6s1d",
+    "Secret": "mk_live_5k8d2j9f4h7g3a6s1d",
+    "Commit": "a1b2c3d4e5f6789012345678abcdef0123456789",
+    "Author": "dev1",
+    "Message": "feat: 工单附件上传",
+    "Severity": "CRITICAL"
+  },
+  {
+    "RuleID": "prod-db-password",
+    "Description": "生产数据库口令硬编码",
+    "File": "src/main/resources/application.properties",
+    "StartLine": 5,
+    "EndLine": 5,
+    "Match": "password=Prod_DB_P@ss_2026!",
+    "Secret": "Prod_DB_P@ss_2026!",
+    "Commit": "a1b2c3d4e5f6789012345678abcdef0123456789",
+    "Author": "dev1",
+    "Message": "feat: 工单附件上传",
+    "Severity": "HIGH"
+  }
+]

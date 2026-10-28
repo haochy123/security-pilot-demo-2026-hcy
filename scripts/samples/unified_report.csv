@@ -1,0 +1,24 @@
+﻿引擎,规则/编号,等级,文件,行号,问题摘要,代码片段
+Trivy(依赖),CVE-2021-44228,P0,pom.xml,0,log4j-core: Remote code execution in Log4j 2.x,org.apache.logging.log4j:log4j-core 2.14.1 → 修复版本: 2.17.1
+Trivy(依赖),CVE-2021-45046,P0,pom.xml,0,log4j-core: RCE DoS vulnerability,org.apache.logging.log4j:log4j-core 2.14.1 → 修复版本: 2.17.1
+Trivy(依赖),CVE-2017-18349,P0,pom.xml,0,fastjson: Remote code execution via deserialization,com.alibaba:fastjson 1.2.24 → 修复版本: 1.2.83
+密钥扫描,company-cloud-access-key,P0,src/main/java/com/demo/service/TicketService.java (commit a1b2c3d4),15,公司云平台AccessKey泄露,AKIDtGk9F7qZx2LmNoPqRsTuVwXyZ123456
+密钥扫描,internal-api-secret,P0,src/main/java/com/demo/service/TicketService.java (commit a1b2c3d4),21,内网API密钥泄露,internal-secret-9f8e7d6c5b4a3f2e1d
+密钥扫描,payment-merchant-key,P0,src/main/resources/application.properties (commit a1b2c3d4),9,第三方支付商户密钥泄露,mk_live_5k8d2j9f4h7g3a6s1d
+密钥扫描,prod-db-password,P0,src/main/resources/application.properties (commit a1b2c3d4),5,生产数据库口令硬编码,Prod_DB_P@ss_2026!
+密钥扫描,company-cloud-access-key,P0,src/main/resources/secret.properties (commit f0e1d2c3),1,公司云平台AccessKey泄露（Git历史提交）,AKIDhIsToRyLeAkEdKeY987654321
+Semgrep(代码),java.lang.security.audit.sqli.jdbc-sql-injection.jdbc-sql-injection,P1,src/main/java/com/demo/controller/UserController.java,14,Detected SQL statement that is tainted by user-input. This could lead to SQL injection.,"String sql = ""SELECT * FROM users WHERE name = '"" + username + ""' AND password ="
+Semgrep(代码),hardcoded-password,P1,src/main/java/com/demo/service/TicketService.java,9,检测到硬编码密码，应移到环境变量或密钥管理服务,"private static final String DB_PASSWORD = ""P@ssw0rd_prod_2026"";"
+Semgrep(代码),hardcoded-cloud-access-key,P1,src/main/java/com/demo/service/TicketService.java,15,检测到硬编码云平台AccessKey（AKID开头），属于P0级密钥泄露,"private static final String OSS_ACCESS_KEY = ""AKIDtGk9F7qZx2LmNoPqRsTuVwXyZ12345"
+Semgrep(代码),mybatis-sql-injection,P1,src/main/resources/mapper/UserMapper.xml,8,MyBatis使用 ${} 直接拼接SQL，存在SQL注入风险，应改为 #{} 预编译参数,ORDER BY ${orderColumn}
+Semgrep(代码),mybatis-sql-injection,P1,src/main/resources/mapper/UserMapper.xml,14,MyBatis使用 ${} 直接拼接SQL，存在SQL注入风险，应改为 #{} 预编译参数,WHERE title LIKE '%${keyword}%'
+Trivy(依赖),CVE-2022-25845,P1,pom.xml,0,fastjson: Remote code execution via deserialization of crafted JSON,com.alibaba:fastjson 1.2.24 → 修复版本: 1.2.83
+Trivy(依赖),CVE-2019-12384,P1,pom.xml,0,jackson-databind: deep nesting array wrapper deserialization DoS,com.fasterxml.jackson.core:jackson-databind 2.9.0 → 修复版本: 2.9.10.1
+Trivy(依赖),CVE-2019-14540,P1,pom.xml,0,jackson-databind: deserialization of untrusted data leads to RCE,com.fasterxml.jackson.core:jackson-databind 2.9.0 → 修复版本: 2.9.10.1
+Trivy(依赖),CVE-2015-7501,P1,pom.xml,0,commons-collections: InvokerTransformer deserialization RCE,commons-collections:commons-collections 3.2.1 → 修复版本: 3.2.2
+Semgrep(代码),generic.path-traversal.open,P2,src/main/java/com/demo/controller/FileController.java,13,Potential path traversal: unsanitized input used in file path construction.,"String path = ""/data/ticket/attachments/"" + filename;"
+Semgrep(代码),generic.xss.reflected-xss,P2,src/main/java/com/demo/controller/UserController.java,30,"User input from keyword is returned in HTML response without escaping, potential reflected XSS.","return ""<div>搜索结果："" + keyword + ""</div>"";"
+Semgrep(代码),password-string-equality,P2,src/main/java/com/demo/controller/UserController.java,37,使用==比较字符串（密码场景），应使用常量时间比较,return input == stored;
+Semgrep(代码),sensitive-data-in-log,P2,src/main/java/com/demo/service/TicketService.java,28,疑似在日志中打印手机号等个人信息，应脱敏后再输出,"System.out.println(""用户 "" + userId + ""（手机号 "" + phone + ""）执行了工单操作"");"
+Semgrep(代码),insecure-random-for-token,P2,src/main/java/com/demo/util/TokenUtil.java,13,安全敏感场景使用java.util.Random（可预测），应使用SecureRandom,Random random = new Random();
+Semgrep(代码),java.lang.security.audit.cipher-ecb.cipher-ecb,P2,src/main/java/com/demo/util/TokenUtil.java,23,"Detected ECB mode usage, which provides no semantic security.","javax.crypto.Cipher.getInstance(""AES/ECB/PKCS5Padding"")"

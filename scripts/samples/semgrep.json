@@ -1,0 +1,126 @@
+{
+  "results": [
+    {
+      "check_id": "java.lang.security.audit.sqli.jdbc-sql-injection.jdbc-sql-injection",
+      "path": "src/main/java/com/demo/controller/UserController.java",
+      "start": {"line": 14, "col": 23},
+      "end": {"line": 16, "col": 44},
+      "extra": {
+        "severity": "ERROR",
+        "message": "Detected SQL statement that is tainted by user-input. This could lead to SQL injection.",
+        "lines": "String sql = \"SELECT * FROM users WHERE name = '\" + username + \"' AND password = '\" + password + \"'\";"
+      }
+    },
+    {
+      "check_id": "mybatis-sql-injection",
+      "path": "src/main/resources/mapper/UserMapper.xml",
+      "start": {"line": 8, "col": 9},
+      "end": {"line": 10, "col": 26},
+      "extra": {
+        "severity": "ERROR",
+        "message": "MyBatis使用 ${} 直接拼接SQL，存在SQL注入风险，应改为 #{} 预编译参数",
+        "lines": "ORDER BY ${orderColumn}"
+      }
+    },
+    {
+      "check_id": "mybatis-sql-injection",
+      "path": "src/main/resources/mapper/UserMapper.xml",
+      "start": {"line": 14, "col": 9},
+      "end": {"line": 16, "col": 34},
+      "extra": {
+        "severity": "ERROR",
+        "message": "MyBatis使用 ${} 直接拼接SQL，存在SQL注入风险，应改为 #{} 预编译参数",
+        "lines": "WHERE title LIKE '%${keyword}%'"
+      }
+    },
+    {
+      "check_id": "generic.xss.reflected-xss",
+      "path": "src/main/java/com/demo/controller/UserController.java",
+      "start": {"line": 30, "col": 15},
+      "end": {"line": 30, "col": 52},
+      "extra": {
+        "severity": "WARNING",
+        "message": "User input from keyword is returned in HTML response without escaping, potential reflected XSS.",
+        "lines": "return \"<div>搜索结果：\" + keyword + \"</div>\";"
+      }
+    },
+    {
+      "check_id": "generic.path-traversal.open",
+      "path": "src/main/java/com/demo/controller/FileController.java",
+      "start": {"line": 13, "col": 24},
+      "end": {"line": 13, "col": 55},
+      "extra": {
+        "severity": "WARNING",
+        "message": "Potential path traversal: unsanitized input used in file path construction.",
+        "lines": "String path = \"/data/ticket/attachments/\" + filename;"
+      }
+    },
+    {
+      "check_id": "hardcoded-password",
+      "path": "src/main/java/com/demo/service/TicketService.java",
+      "start": {"line": 9, "col": 34},
+      "end": {"line": 9, "col": 66},
+      "extra": {
+        "severity": "ERROR",
+        "message": "检测到硬编码密码，应移到环境变量或密钥管理服务",
+        "lines": "private static final String DB_PASSWORD = \"P@ssw0rd_prod_2026\";"
+      }
+    },
+    {
+      "check_id": "hardcoded-cloud-access-key",
+      "path": "src/main/java/com/demo/service/TicketService.java",
+      "start": {"line": 15, "col": 34},
+      "end": {"line": 15, "col": 84},
+      "extra": {
+        "severity": "ERROR",
+        "message": "检测到硬编码云平台AccessKey（AKID开头），属于P0级密钥泄露",
+        "lines": "private static final String OSS_ACCESS_KEY = \"AKIDtGk9F7qZx2LmNoPqRsTuVwXyZ123456\";"
+      }
+    },
+    {
+      "check_id": "insecure-random-for-token",
+      "path": "src/main/java/com/demo/util/TokenUtil.java",
+      "start": {"line": 13, "col": 26},
+      "end": {"line": 13, "col": 40},
+      "extra": {
+        "severity": "WARNING",
+        "message": "安全敏感场景使用java.util.Random（可预测），应使用SecureRandom",
+        "lines": "Random random = new Random();"
+      }
+    },
+    {
+      "check_id": "java.lang.security.audit.cipher-ecb.cipher-ecb",
+      "path": "src/main/java/com/demo/util/TokenUtil.java",
+      "start": {"line": 23, "col": 50},
+      "end": {"line": 23, "col": 84},
+      "extra": {
+        "severity": "WARNING",
+        "message": "Detected ECB mode usage, which provides no semantic security.",
+        "lines": "javax.crypto.Cipher.getInstance(\"AES/ECB/PKCS5Padding\")"
+      }
+    },
+    {
+      "check_id": "sensitive-data-in-log",
+      "path": "src/main/java/com/demo/service/TicketService.java",
+      "start": {"line": 28, "col": 9},
+      "end": {"line": 28, "col": 74},
+      "extra": {
+        "severity": "WARNING",
+        "message": "疑似在日志中打印手机号等个人信息，应脱敏后再输出",
+        "lines": "System.out.println(\"用户 \" + userId + \"（手机号 \" + phone + \"）执行了工单操作\");"
+      }
+    },
+    {
+      "check_id": "password-string-equality",
+      "path": "src/main/java/com/demo/controller/UserController.java",
+      "start": {"line": 37, "col": 16},
+      "end": {"line": 37, "col": 32},
+      "extra": {
+        "severity": "WARNING",
+        "message": "使用==比较字符串（密码场景），应使用常量时间比较",
+        "lines": "return input == stored;"
+      }
+    }
+  ],
+  "errors": []
+}

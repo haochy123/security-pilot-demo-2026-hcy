@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mapper.UserMapper">
+
+    <!-- 【埋点12 - MyBatis SQL注入】使用 ${} 直接拼接排序字段 -->
+    <!-- 触发引擎：Semgrep（自定义规则 mybatis-sql-injection） -->
+    <select id="listTickets" resultType="Ticket">
+        SELECT id, title, status FROM tickets
+        ORDER BY ${orderColumn}
+    </select>
+
+    <!-- 【埋点13 - MyBatis SQL注入】使用 ${} 拼接查询条件 -->
+    <select id="searchTickets" resultType="Ticket">
+        SELECT id, title FROM tickets
+        WHERE title LIKE '%${keyword}%'
+    </select>
+</mapper>

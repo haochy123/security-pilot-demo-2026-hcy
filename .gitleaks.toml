@@ -1,0 +1,29 @@
+title = "企业自定义密钥扫描规则"
+
+[[rules]]
+id = "company-cloud-access-key"
+description = "公司云平台AccessKey泄露"
+regex = '''AKID[A-Za-z0-9]{16,32}'''
+tags = ["key", "cloud", "company"]
+severity = "CRITICAL"
+
+[[rules]]
+id = "internal-api-secret"
+description = "内网API密钥泄露"
+regex = '''internal-secret-[a-z0-9]{16,}'''
+tags = ["key", "internal"]
+severity = "CRITICAL"
+
+[[rules]]
+id = "payment-merchant-key"
+description = "第三方支付商户密钥泄露"
+regex = '''mk_(live|test)_[a-z0-9]{8,}'''
+tags = ["key", "payment"]
+severity = "CRITICAL"
+
+[[rules]]
+id = "prod-db-password"
+description = "生产数据库口令硬编码"
+regex = '''(?i)(password|passwd)\s*[=:]\s*[^\s]{8,}'''
+tags = ["credential", "database"]
+severity = "HIGH"

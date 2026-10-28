@@ -1,0 +1,53 @@
+name: Security Scan
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Semgrep Scan
+        run: |
+          pip install semgrep
+          semgrep scan \
+            --config auto \
+            --config .semgrep/rules.yml \
+            --json --output semgrep.json || true
+
+      - name: Secret Scan (gitleaks)
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.18.4/gitleaks_8.18.4_linux_x64.tar.gz \
+            | tar -xz -C /usr/local/bin gitleaks
+          gitleaks detect \
+            --source . \
+            --config .gitleaks.toml \
+            --report-format json --report-path gitleaks.json \
+            --exit-code 0 || true
+
+      - name: Trivy Dependency Scan
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+          trivy fs --format json --output trivy.json --scanners vuln . || true
+
+      - name: Normalize & Security Gate
+        run: python3 scripts/normalize.py
+
+      - name: Upload Unified Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: |
+            unified_report.csv
+            security_summary.md
+            semgrep.json
+            gitleaks.json
+            trivy.json
